@@ -1,0 +1,7 @@
+.ToDoItem-delete-Btn{
+  background-color: aqua;
+}
+
+.ToDoItem-delete-Btn:hover {
+  background-color: purple;
+}
