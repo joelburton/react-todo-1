@@ -11,7 +11,7 @@ function ToDoList() {
 
   // Passthrough function to add a new item to toDoItems
   const addToDo = toDo => {
-    let newToDo = { ...toDo, id: uuid() };
+    let newToDo = { ...toDo, id: uuid(), edit: false };
     setToDoItems(ToDoItems => [...toDoItems, newToDo]);
   };
 
@@ -22,6 +22,23 @@ const removeToDo = (ToDoId) => {
   setToDoItems(toDoItemsCopy);
 };
 
+// Updates edited toDoItem, currently only copes with text field,
+// ?Could spread the old object the the formData after it ?
+// yadayada ToDoId ? {...i, edit: false, ...formData } : i)))
+const editToDoSubmit = (formData, ToDoId) => {
+  console.log("formData: ", formData, "ToDoId:", ToDoId, "toDoItems: ", toDoItems)
+  setToDoItems(toDoItems.map((i) => (
+    i.id === ToDoId ? {...i, edit : false, text : formData.text} : i )));
+;}
+
+const editToDo = (ToDoId) => {
+
+  setToDoItems(toDoItems.map((i) => (
+                      i.id === ToDoId ? {...i, edit : true} : i )))
+};
+
+// function ToDoItem({ id, text, edit, removeToDo, editToDoSubmit, editToDo }
+
 // Create the ToDoList ready to render
   const renderToDoItems = () => {
     return (
@@ -29,7 +46,10 @@ const removeToDo = (ToDoId) => {
         {toDoItems.map(item => <ToDoItem id={item.id}
           key={item.id}
           text={item.text}
-          removeToDo={removeToDo} />)}
+          edit={item.edit}
+          removeToDo={removeToDo}
+          editToDoSubmit= {editToDoSubmit}
+          editToDo={ editToDo } />)}
       </div>
     );
   };
